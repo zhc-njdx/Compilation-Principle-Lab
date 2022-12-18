@@ -1,0 +1,84 @@
+Program
+  CompUnit
+    FuncDef
+      FuncType
+        int INT[orange]
+      main IDENT[red]
+      Block
+        BlockItem
+          Decl
+            VarDecl
+              BType
+                int INT[orange]
+              VarDef
+                x IDENT[red]
+                = ASSIGN[blue]
+                InitVal
+                  Exp
+                    Number
+                      15 INTEGR_CONST[green]
+        BlockItem
+          Decl
+            VarDecl
+              BType
+                int INT[orange]
+              VarDef
+                y IDENT[red]
+                = ASSIGN[blue]
+                InitVal
+                  Exp
+                    Number
+                      8 INTEGR_CONST[green]
+        BlockItem
+          Decl
+            VarDecl
+              BType
+                int INT[orange]
+              VarDef
+                z IDENT[red]
+                = ASSIGN[blue]
+                InitVal
+                  Exp
+                    NumberProgram
+  CompUnit
+    FuncDef
+      FuncType
+        int INT[orange]
+      main IDENT[red]
+      Block
+        BlockItem
+          Decl
+            VarDecl
+              BType
+                int INT[orange]
+              VarDef
+                x IDENT[red]
+                = ASSIGN[blue]
+                InitVal
+                  Exp
+                    Number
+                      15 INTEGR_CONST[green]
+        BlockItem
+          Decl
+            VarDecl
+              BType
+                int INT[orange]
+              VarDef
+                y IDENT[red]
+                = ASSIGN[blue]
+                InitVal
+                  Exp
+                    Number
+                      8 INTEGR_CONST[green]
+        BlockItem
+          Decl
+            VarDecl
+              BType
+                int INT[orange]
+              VarDef
+                z IDENT[red]
+                = ASSIGN[blue]
+                InitVal
+                  Exp
+                    Number
+                      0 INTEGR_CONST[green]

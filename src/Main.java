@@ -1,4 +1,5 @@
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.*;
 import java.util.List;
@@ -9,40 +10,31 @@ public class Main
         if(args.length == 0){
             System.err.println("input path is required");
         }
+        // get input file and generate the Lexer
         String source = args[0];
         CharStream input = CharStreams.fromFileName(source);
         SysYLexer sysYLexer = new SysYLexer(input);
 
-        sysYLexer.removeErrorListeners();
-        MyErrorListener myErrorListener = new MyErrorListener();
-        sysYLexer.addErrorListener(myErrorListener);
+        // generate the Parser
+        CommonTokenStream tokens = new CommonTokenStream(sysYLexer);
+        SysYParser sysYParser = new SysYParser(tokens);
 
-        List<? extends Token> allTokens = sysYLexer.getAllTokens();
-        // occur error
-        if (myErrorListener.flag) return;
+        Visitor visitor = new Visitor();
 
-        for (Token token : allTokens) {
-            int typeId = token.getType();
-            String type = SysYLexer.VOCABULARY.getSymbolicName(typeId);
-            String text = token.getText();
-            if(typeId == SysYLexer.INTEGR_CONST){
-                if(text.equals("0")) {
-                    text = "0";
-                } else if(text.startsWith("0x") || text.startsWith("0X")){
-                    text = Integer.parseInt(text.substring(2), 16) + "";
-                } else if(text.startsWith("0")){
-                    text = Integer.parseInt(text.substring(1), 8) + "";
-                }
-            }
-            int lineNo = token.getLine();
-            System.err.println(type + " " + text + " at Line " + lineNo + ".");
-        }
+        // add error listener
+        sysYParser.removeErrorListeners();
+        MyParserErrorListener myParserErrorListener = new MyParserErrorListener(visitor);
+        sysYParser.addErrorListener(myParserErrorListener);
+
+        // DFS the tree
+        ParseTree tree = sysYParser.program();
+        visitor.visit(tree);
     }
 
-    static class MyErrorListener extends BaseErrorListener{
-        public MyErrorListener(){}
+    static class MyParserErrorListener extends BaseErrorListener{
+        Visitor visitor;
+        public MyParserErrorListener(Visitor v){ this.visitor = v; }
 
-        public boolean flag = false;
 
         public void syntaxError(Recognizer<?, ?> recognizer,
                                 Object offendingSymbol,
@@ -51,8 +43,8 @@ public class Main
                                 String msg,
                                 RecognitionException e)
         {
-            flag = true;
-            System.err.println("Error type A at Line " + line + ": " + msg);
+            this.visitor.hasError = true;
+            System.err.println("Error type B at Line " + line + ": " + msg);
         }
     }
 }

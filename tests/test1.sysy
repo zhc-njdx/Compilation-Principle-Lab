@@ -1,0 +1,5 @@
+int main(){
+    int x = 0xf;
+    int y = 010;
+    int z = 0;
+}
