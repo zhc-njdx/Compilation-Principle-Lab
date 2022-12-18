@@ -28,7 +28,8 @@ antlr: $(LFILE) $(PFILE)
 
 test: compile
 	$(call git_commit, "test")
-	nohup java -classpath ./classes:$(ANTLRPATH) Main ./tests/test1.sysy &
+	truncate -s 0 nohup.out
+	nohup java -classpath ./classes:$(ANTLRPATH) Main ./tests/test1.sysy 8 4 d &
 
 
 clean:

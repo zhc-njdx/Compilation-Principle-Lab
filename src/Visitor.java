@@ -2,9 +2,43 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.Locale;
+import java.sql.Struct;
+import java.util.*;
 
 public class Visitor extends SysYParserBaseVisitor<Void>{
+
+    Scope globalScope; // the root of scope tree made in Visitor0
+    String newStr;
+    List<int[]> pos; // the position need to be replaced
+
+    public Visitor(Scope globalScope, String newStr){
+        this.globalScope = globalScope;
+        this.newStr = newStr;
+        this.pos = new LinkedList<>();
+
+        // 获取全部的需要重命名的变量的位置
+        Queue<Scope> queue = new LinkedList<>();
+        queue.add(globalScope);
+        boolean isOver = false;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            for (int i = 0; i < size; i++){
+                Scope scope = queue.poll();
+                for (Map.Entry<String, Symbol> entry : scope.symbols.entrySet()){
+                    Symbol symbol = entry.getValue();
+                    if (symbol.isNeedReplace){
+                        pos.add(new int[]{symbol.row, symbol.col});
+                        pos.addAll(symbol.usePos);
+                        isOver = true;
+                        break;
+                    }
+                }
+                if (isOver) break;
+                queue.addAll(scope.childScope);
+            }
+            if (isOver) break;
+        }
+    }
 
     public boolean hasError = false;
 
@@ -24,6 +58,16 @@ public class Visitor extends SysYParserBaseVisitor<Void>{
             System.err.print(" ");
         }
     }
+
+    private boolean isNeedReplace(int row, int col){
+        for (int[] pos : this.pos){
+            if (row == pos[0] && col == pos[1]){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Void visitChildren(RuleNode node) {
         int ruleIdx = node.getRuleContext().getRuleIndex();
@@ -41,6 +85,10 @@ public class Visitor extends SysYParserBaseVisitor<Void>{
         String color = getColor(type);
         if (!hasError && !color.equals("")){ // "" means the terminal node we need, such as '{' '}'
             String literal_name = node.toString();
+            // 判断是否需要重命名
+            if (isNeedReplace(node.getSymbol().getLine(), node.getSymbol().getCharPositionInLine())){
+                literal_name = newStr;
+            }
             String symbol_name = SysYParser.VOCABULARY.getSymbolicName(type);
             // deal with numbers
             if (type == SysYParser.INTEGR_CONST){
@@ -63,4 +111,6 @@ public class Visitor extends SysYParserBaseVisitor<Void>{
         }
         return number;
     }
+
+
 }

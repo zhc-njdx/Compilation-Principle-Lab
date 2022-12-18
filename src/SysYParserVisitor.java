@@ -58,11 +58,61 @@ public interface SysYParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlockItem(SysYParser.BlockItemContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SysYParser#stmt}.
+	 * Visit a parse tree produced by the {@code ASSIGNMENT}
+	 * labeled alternative in {@link SysYParser#stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStmt(SysYParser.StmtContext ctx);
+	T visitASSIGNMENT(SysYParser.ASSIGNMENTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EXP}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEXP(SysYParser.EXPContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BLOCK}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBLOCK(SysYParser.BLOCKContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code IF_ELSE}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIF_ELSE(SysYParser.IF_ELSEContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code WHILE_STMT}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWHILE_STMT(SysYParser.WHILE_STMTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BREAK_STMT}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBREAK_STMT(SysYParser.BREAK_STMTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CONTINUE_STMT}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCONTINUE_STMT(SysYParser.CONTINUE_STMTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code RETURN_STMT}
+	 * labeled alternative in {@link SysYParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRETURN_STMT(SysYParser.RETURN_STMTContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SysYParser#decl}.
 	 * @param ctx the parse tree
@@ -112,17 +162,89 @@ public interface SysYParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBType(SysYParser.BTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SysYParser#exp}.
+	 * Visit a parse tree produced by the {@code EXPR}
+	 * labeled alternative in {@link SysYParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExp(SysYParser.ExpContext ctx);
+	T visitEXPR(SysYParser.EXPRContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SysYParser#cond}.
+	 * Visit a parse tree produced by the {@code UN_OP}
+	 * labeled alternative in {@link SysYParser#exp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCond(SysYParser.CondContext ctx);
+	T visitUN_OP(SysYParser.UN_OPContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FUNC_CALL}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFUNC_CALL(SysYParser.FUNC_CALLContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NUM}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNUM(SysYParser.NUMContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PM_OP}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPM_OP(SysYParser.PM_OPContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LV}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLV(SysYParser.LVContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MDM_OP}
+	 * labeled alternative in {@link SysYParser#exp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMDM_OP(SysYParser.MDM_OPContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code OR}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOR(SysYParser.ORContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AND}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAND(SysYParser.ANDContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CONEXP}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCONEXP(SysYParser.CONEXPContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EN}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEN(SysYParser.ENContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LG}
+	 * labeled alternative in {@link SysYParser#cond}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLG(SysYParser.LGContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SysYParser#lVal}.
 	 * @param ctx the parse tree

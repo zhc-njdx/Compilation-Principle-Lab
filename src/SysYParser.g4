@@ -26,7 +26,9 @@ funcType
 funcFParams
     : funcFParam (COMMA funcFParam)*
     ;
-
+// int i |
+// int i [] |
+// int i [][exp]
 funcFParam
     : bType IDENT (L_BRACKT R_BRACKT (L_BRACKT exp R_BRACKT)* )?
     ;
@@ -40,14 +42,14 @@ blockItem
     ;
 
 stmt
-    : lVal ASSIGN exp SEMICOLON
-    | (exp)? SEMICOLON
-    | block
-    | IF L_PAREN cond R_PAREN stmt (ELSE stmt)?
-    | WHILE L_PAREN cond R_PAREN stmt
-    | BREAK SEMICOLON
-    | CONTINUE SEMICOLON
-    | RETURN (exp)? SEMICOLON
+    : lVal ASSIGN exp SEMICOLON # ASSIGNMENT
+    | (exp)? SEMICOLON  # EXP
+    | block # BLOCK
+    | IF L_PAREN cond R_PAREN stmt (ELSE stmt)? # IF_ELSE
+    | WHILE L_PAREN cond R_PAREN stmt   # WHILE_STMT
+    | BREAK SEMICOLON   # BREAK_STMT
+    | CONTINUE SEMICOLON    # CONTINUE_STMT
+    | RETURN (exp)? SEMICOLON   # RETURN_STMT
     ;
 
 // decl
@@ -87,25 +89,26 @@ bType
     ;
 
 exp
-   : L_PAREN exp R_PAREN
-   | lVal
-   | number
-   | IDENT L_PAREN funcRParams? R_PAREN
-   | unaryOp exp
-   | exp (MUL | DIV | MOD) exp
-   | exp (PLUS | MINUS) exp
+   : L_PAREN exp R_PAREN                # EXPR
+   | lVal                               # LV
+   | number                             # NUM
+   | IDENT L_PAREN funcRParams? R_PAREN # FUNC_CALL
+   | unaryOp exp                        # UN_OP
+   | exp (MUL | DIV | MOD) exp          # MDM_OP
+   | exp (PLUS | MINUS) exp             # PM_OP
    ;
 
+
 cond
-   : exp
-   | cond (LT | GT | LE | GE) cond
-   | cond (EQ | NEQ) cond
-   | cond AND cond
-   | cond OR cond
+   : exp                            # CONEXP
+   | cond (LT | GT | LE | GE) cond  # LG
+   | cond (EQ | NEQ) cond           # EN
+   | cond AND cond                  # AND
+   | cond OR cond                   # OR
    ;
 
 lVal
-   : IDENT (L_BRACKT exp R_BRACKT)*
+   : IDENT (L_BRACKT exp R_BRACKT)* // a[?][?][?]
    ;
 
 number
