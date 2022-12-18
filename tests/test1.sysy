@@ -1,0 +1,7 @@
+int a(int c){
+    return 1;
+}
+
+int main(){
+    int x = a(y);
+}
